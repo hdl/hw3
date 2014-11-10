@@ -199,12 +199,16 @@ class Stack:
     def unify(self, T1, T2):
         u = self.new()
         if u._unify(T1, T2):
-            yield u
+            return u
+        else:
+            return None
 
     def unify_with_occurs_check(self, T1, T2):
         u = self.new()
         if u._unify(T1, T2, occurs_check=True):
-            yield u
+            return u
+        else:
+            return None
 
     def _unify(self, T1, T2, occurs_check=False):
         T1 = self[T1]

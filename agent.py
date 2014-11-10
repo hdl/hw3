@@ -8,8 +8,9 @@ def main():
 
     f = open('input.txt', 'r')
     print f.read()
-    print "===================================="
     f.close()
+    print "===================================="
+
     f = open('input.txt', 'r')
     goal = f.readline().translate(None, "\n\r\t");
     num = int(f.readline().translate(None, "\n\r\t"));
@@ -26,6 +27,8 @@ def main():
     f.close();
 
     kb.print_info()
+
+    print kb.ask(goal)
 
 
 if __name__ == '__main__':
