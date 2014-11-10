@@ -1,3 +1,4 @@
+import sys
 from predictor import *
 class Term:
     def __init__(self, term_string):
@@ -47,7 +48,7 @@ class KB(Term):
         elif self.check_positive_list(goal):
             return True
         elif self.check_conclusion_dict(goal):
-            return True
+            return False
         else:
             return False
 
@@ -56,14 +57,23 @@ class KB(Term):
         for item in self.table[key].positive_list:
             if goal==item:
                 return True
-            elif self.unify(goal, item) != False:
-                return True
+            else:
+                res = self.unify(goal, item)
+                if res != False:
+                    return True
         return False
 
     def check_conclusion_dict(self, goal):
-        return False
+        print 'goal is:'+goal
+        predict = self.get_predict_name(goal)
+        print 'predict is:'+key
+        conclusion_dict = self.table[key].conclusion_dict
+        print conclusion_dict
+        for key, value in conclusion_dict.iteritems():
+            self.unify(goal, key)
 
     def unify(self, term_string1, term_string2):
+        # call by copy, will not change
         term1 = Term(term_string1)
         term2 = Term(term_string2)
         if term1.predict_name != term2.predict_name:
@@ -71,9 +81,11 @@ class KB(Term):
         elif len(term1.member_list) != len(term2.member_list):
             return False
         else:
-            return self._unify(term1.member_list, term2.member_list, '')
+            res = self._unify(term1.member_list, term2.member_list, '')
+            return res
 
     def _unify(self, list1, list2, theta):
+        # call by reference
         print str(list1)+" "+str(list2)
         if str(list1)==str(list2):
             return theta 
@@ -92,6 +104,7 @@ class KB(Term):
             return False
 
     def subst(self, foo_list, foo):
+        # call by reference
         for i in range(len(foo_list)):
             if foo_list[i] == 'x':
                 foo_list[i] = foo
