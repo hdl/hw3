@@ -64,32 +64,49 @@ class KB(Term):
         return False
 
     def check_conclusion_dict(self, goal):
-        print '=======check_conclusion_dict=================='
+        print '======In check_conclusion_dict======='
         print 'goal is:'+goal
         predict = self.get_predict_name(goal)
         print 'predict is:'+predict
         conclusion_dict = self.table[predict].conclusion_dict
+        print 'dict is:'
         print conclusion_dict
-        print "---BEGIN CHANNING---"
+        print 'begin check:'
         for key_term, value_list_list in conclusion_dict.iteritems():
             x = self.unify(goal, key_term)
             if (x != False):
-                for value_list in value_list_list:
+                print "GO:" + key_term + "   can unify with: x="+str(x)
+                union_list_list = self.union_with_x(value_list_list, x)
+                for value_list in union_list_list:
                     print "processing:"+str(value_list)
                     break_flag_inner = 0
                     for value in value_list:
                         res = self.ask(value)
-                        print "---finish ask: "+value+str(res)
+                        print "---ask: "+value+"--"+str(res)
                         if res == False:
                             break_flag_inner = 1
                             print "fail"
                             break
                     if break_flag_inner == 0:
                         return True
-                return False
             else:
-                return False
+                print "SKIP:" + key_term + "   can not unify with:"+goal
+        return False
 
+    def union_with_x(self, value_list_list, x):
+        if x[0].islower() or x == False:
+            traceback.print_stack()
+            sys.exit(0);
+        if x == None:
+            return value_list_list
+        # else:
+        union_list_list = value_list_list
+        for i in range(len(union_list_list)):
+            union_list = union_list_list[i]
+            for j in range(len(union_list)):
+                union_list_list[i][j] = union_list_list[i][j].replace("(x", "("+x)
+                union_list_list[i][j] = union_list_list[i][j].replace(",x", ","+x)
+        return union_list_list
     def unify(self, term_string1, term_string2):
         # call by copy, will not change
         term1 = Term(term_string1)
