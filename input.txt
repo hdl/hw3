@@ -1,8 +1,6 @@
-Has(A,B)
-6
-Has(x,B)
-Has(A,C)
-Has(A,D)
-Has(D,B,C)
-Has(A,B,C)
-Has(A,x)
+Diagnosis(John,Infected)
+4
+LostWeight(x)&Diagnosis(Boy,LikelyInfected)=>Diagnosis(x,Infected)
+LostWeight(x)&Diagnosis(x,LikelyInfected)=>Diagnosis(x,Infected)
+LostWeight(John)
+Diagnosis(John,LikelyInfected)

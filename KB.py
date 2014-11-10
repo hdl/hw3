@@ -48,7 +48,7 @@ class KB(Term):
         elif self.check_positive_list(goal):
             return True
         elif self.check_conclusion_dict(goal):
-            return False
+            return True
         else:
             return False
 
@@ -64,13 +64,31 @@ class KB(Term):
         return False
 
     def check_conclusion_dict(self, goal):
+        print '=======check_conclusion_dict=================='
         print 'goal is:'+goal
         predict = self.get_predict_name(goal)
-        print 'predict is:'+key
-        conclusion_dict = self.table[key].conclusion_dict
+        print 'predict is:'+predict
+        conclusion_dict = self.table[predict].conclusion_dict
         print conclusion_dict
-        for key, value in conclusion_dict.iteritems():
-            self.unify(goal, key)
+        print "---BEGIN CHANNING---"
+        for key_term, value_list_list in conclusion_dict.iteritems():
+            x = self.unify(goal, key_term)
+            if (x != False):
+                for value_list in value_list_list:
+                    print "processing:"+str(value_list)
+                    break_flag_inner = 0
+                    for value in value_list:
+                        res = self.ask(value)
+                        print "---finish ask: "+value+str(res)
+                        if res == False:
+                            break_flag_inner = 1
+                            print "fail"
+                            break
+                    if break_flag_inner == 0:
+                        return True
+                return False
+            else:
+                return False
 
     def unify(self, term_string1, term_string2):
         # call by copy, will not change
@@ -86,7 +104,7 @@ class KB(Term):
 
     def _unify(self, list1, list2, theta):
         # call by reference
-        print str(list1)+" "+str(list2)
+        # print str(list1)+" "+str(list2)
         if str(list1)==str(list2):
             return theta 
         for foo, bar in zip(list1, list2):
