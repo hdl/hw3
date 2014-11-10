@@ -57,7 +57,6 @@ class KB(Term):
             if goal==item:
                 return True
             elif self.unify(goal, item) != False:
-                print "x is "+self.unify(goal, item)
                 return True
         return False
 
