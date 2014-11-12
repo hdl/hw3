@@ -54,6 +54,9 @@ class KB(Term):
 
     def check_positive_list(self, goal):
         key = self.get_predict_name(goal)
+        print '======In check_positive_list======='
+        print 'goal is:'+goal
+        print 'positive list is:'+str(self.table[key].positive_list)
         for item in self.table[key].positive_list:
             if goal==item:
                 return True
@@ -75,22 +78,23 @@ class KB(Term):
         for key_term, value_list_list in conclusion_dict.iteritems():
             x = self.unify(goal, key_term)
             if (x != False):
-                print "GO:" + key_term + "   can unify with: x="+str(x)
+                print "Continue on:" + key_term + "   can unify with: x="+str(x)
                 union_list_list = self.union_with_x(value_list_list, x)
                 for value_list in union_list_list:
-                    print "processing:"+str(value_list)
+                    print "Need:"+str(value_list)
                     break_flag_inner = 0
                     for value in value_list:
+                        print "-Ask: "+value
                         res = self.ask(value)
-                        print "---ask: "+value+"--"+str(res)
+                        print "-Answer: "+value+"--"+str(res)
                         if res == False:
                             break_flag_inner = 1
-                            print "fail"
+                            print "Set break flag"
                             break
                     if break_flag_inner == 0:
                         return True
             else:
-                print "SKIP:" + key_term + "   can not unify with:"+goal
+                print "Give up:" + key_term + " can not unify with:"+goal
         return False
 
     def union_with_x(self, value_list_list, x):
