@@ -27,8 +27,12 @@ def main():
     f.close();
 
     kb.print_info()
-
-    print kb.ask(goal)
+    
+    output_str = str(kb.ask(goal)).upper()
+    print output_str
+    f = open('output.txt', 'wr')
+    f.write(output_str)
+    f.close()
 
 
 if __name__ == '__main__':
