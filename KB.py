@@ -98,11 +98,12 @@ class KB(Term):
         return False
 
     def union_with_x(self, value_list_list, x):
+        print type(x)
+        if x == None or x == '':
+            return value_list_list
         if x[0].islower() or x == False:
             traceback.print_stack()
             sys.exit(0);
-        if x == None:
-            return value_list_list
         # else:
         union_list_list = value_list_list
         for i in range(len(union_list_list)):

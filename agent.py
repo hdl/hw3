@@ -1,4 +1,3 @@
-from pylog import *
 from predictor import *
 from KB import *
 import sys, traceback
