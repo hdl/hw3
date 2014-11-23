@@ -17,9 +17,6 @@ class Predictor:
         conclusion = 'conclusion_dict:'+str(self.conclusion_dict)+'\n'
         return name+positive+conclusion
 
-    def set_predict_name(self, name):
-        self.predict_name = name
-
     def add_as_conclusion(self,expression):
         if "=>" in expression:
             premise_con = expression.split('=>')
@@ -30,14 +27,23 @@ class Predictor:
             else:
                 self.conclusion_dict[key] = []
                 self.conclusion_dict[key].append(value)
+        else:
+            print "error, should include =>"
+            print expression
+            traceback.print_stack()
 
     def add_as_positive(self,expression):
         if "=>" not in expression:
             if "&" in expression:
-                print "error, kkkkk"
+                print "error, should not include &"
                 print expression
                 traceback.print_stack()
             self.positive_list.append(expression)
+        else:
+            print "error, should not include =>"
+            print expression
+            traceback.print_stack()
+
 
 
 
