@@ -6,11 +6,6 @@ def main():
     kb = KB()
 
     f = open('input.txt', 'r')
-    print f.read()
-    f.close()
-    print "===================================="
-
-    f = open('input.txt', 'r')
     goal = f.readline().translate(None, "\n\r\t");
     num = int(f.readline().translate(None, "\n\r\t"));
     for i in range(num):
@@ -28,7 +23,7 @@ def main():
     kb.print_info()
     
     output_str = str(kb.ask(goal)).upper()
-    print output_str
+    #print output_str
     f = open('output.txt', 'wr')
     f.write(output_str)
     f.close()

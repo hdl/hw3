@@ -21,9 +21,10 @@ class KB(Term):
         self.table = {}
 
     def print_info(self):
-        for key, value in self.table.iteritems():
-            print "key is:"+str(key)
-            print value
+        return 
+        #for key, value in self.table.iteritems():
+            #print "key is:"+str(key)
+            #print value
 
     def tell_as_conclusion(self,line):
         predict_name = self.get_predict_name(line)
@@ -54,9 +55,9 @@ class KB(Term):
 
     def check_positive_list(self, goal):
         key = self.get_predict_name(goal)
-        print '======In check_positive_list======='
-        print 'goal is:'+goal
-        print 'positive list is:'+str(self.table[key].positive_list)
+        #print '======In check_positive_list======='
+        #print 'goal is:'+goal
+        #print 'positive list is:'+str(self.table[key].positive_list)
         for item in self.table[key].positive_list:
             if goal==item:
                 return True
@@ -67,38 +68,39 @@ class KB(Term):
         return False
 
     def check_conclusion_dict(self, goal):
-        print '======In check_conclusion_dict======='
-        print 'goal is:'+goal
+        #print '======In check_conclusion_dict======='
+        #print 'goal is:'+goal
         predict = self.get_predict_name(goal)
-        print 'predict is:'+predict
+        #print 'predict is:'+predict
         conclusion_dict = self.table[predict].conclusion_dict
-        print 'dict is:'
-        print conclusion_dict
-        print 'begin check:'
+        #print 'dict is:'
+        #print conclusion_dict
+        #print 'begin check:'
         for key_term, value_list_list in conclusion_dict.iteritems():
             x = self.unify(goal, key_term)
             if (x != False):
-                print "Continue on:" + key_term + "   can unify with: x="+str(x)
+                #print "Continue on:" + key_term + "   can unify with: x="+str(x)
                 union_list_list = self.union_with_x(value_list_list, x)
                 for value_list in union_list_list:
-                    print "Need:"+str(value_list)
+                    #print "Need:"+str(value_list)
                     break_flag_inner = 0
                     for value in value_list:
-                        print "-Ask: "+value
+                        #print "-Ask: "+value
                         res = self.ask(value)
-                        print "-Answer: "+value+"--"+str(res)
+                        #print "-Answer: "+value+"--"+str(res)
                         if res == False:
                             break_flag_inner = 1
-                            print "Set break flag"
+                            #print "Set break flag"
                             break
                     if break_flag_inner == 0:
                         return True
             else:
-                print "Give up:" + key_term + " can not unify with:"+goal
+                pass
+                #print "Give up:" + key_term + " can not unify with:"+goal
         return False
 
     def union_with_x(self, value_list_list, x):
-        print type(x)
+        #print type(x)
         if x == None or x == '':
             return value_list_list
         if x[0].islower() or x == False:
